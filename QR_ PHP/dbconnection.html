@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>Selecting Data</title>
+</head>
+<body>
+<?php
+$user = "root";
+$pass = "";
+$db = "mydatabase";
+$link = mysql_connect( "localhost", $user, $pass );
+if ( ! $link ) {
+  die( "Couldn't connect to MySQL: ".mysql_error() );
+}
+
+mysql_select_db( $db, $link ) or die ( "Couldn't open $db: ".mysql_error() );
+
+$result = mysql_query( "SELECT * FROM domains where sex='F'" );
+$num_rows = mysql_num_rows( $result );
+
+print "<p>$num_rows women have added data to the table</p>\n";
+
+print "<table>";
+while ( $a_row = mysql_fetch_row( $result ) ) {
+  print "<tr>";
+  foreach ( $a_row as $field ) {
+    print "<td>".stripslashes($field)."</td>";
+  }
+  print "</tr>";
+}
+print "</table>";
+mysql_close( $link );
+?>
+</body>
+</html>
